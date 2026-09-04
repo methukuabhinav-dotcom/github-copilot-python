@@ -42,6 +42,26 @@ python app.py
 
 7. Open http://127.0.0.1:5000 in your browser.
 
+## Testing
+
+Navigate to the starter directory:
+
+```bash
+cd starter
+```
+
+Activate the Python virtual environment if necessary, then install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the test suite:
+
+```bash
+python -m pytest -q
+```
+
 ## Project Instructions
 
 Use GitHub Copilot to refactor the code for this game to add more advanced features. The goal is to create a more modern and maintainable codebase and add additional functionality to the final product. You can use any combination of code completion and chat features, like Ask, Edit, or Agent modes.

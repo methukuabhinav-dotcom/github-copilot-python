@@ -15,8 +15,33 @@ def index():
 
 @app.route('/new')
 def new_game():
-    clues = int(request.args.get('clues', 35))
-    puzzle, solution = sudoku_logic.generate_puzzle(clues)
+    difficulty_value = request.args.get('difficulty')
+    clues_value = request.args.get('clues')
+
+    if difficulty_value is not None and clues_value is not None:
+        return jsonify({'error': 'Provide either difficulty or clues, not both.'}), 400
+
+    if clues_value is not None:
+        try:
+            clues = int(clues_value)
+        except (TypeError, ValueError):
+            return jsonify({'error': 'clues must be an integer.'}), 400
+        puzzle, solution = sudoku_logic.generate_puzzle(clues=clues)
+    else:
+        if difficulty_value is None:
+            difficulty = sudoku_logic.Difficulty.MEDIUM
+        else:
+            try:
+                clues = sudoku_logic.clues_for_difficulty(difficulty_value)
+                difficulty = sudoku_logic.Difficulty(difficulty_value)
+            except ValueError:
+                return jsonify({'error': f'Invalid difficulty: {difficulty_value!r}. Expected one of: easy, medium, hard'}), 400
+            puzzle, solution = sudoku_logic.generate_puzzle(clues=clues)
+            CURRENT['puzzle'] = puzzle
+            CURRENT['solution'] = solution
+            return jsonify({'puzzle': puzzle})
+        puzzle, solution = sudoku_logic.generate_puzzle_for_difficulty(difficulty)
+
     CURRENT['puzzle'] = puzzle
     CURRENT['solution'] = solution
     return jsonify({'puzzle': puzzle})
