@@ -2,16 +2,59 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Sudoku Game</h1>
-  <div id="sudoku-board"></div>
+  <main class="game-shell">
+    <header class="game-header">
+      <div>
+        <p class="eyebrow">Daily logic practice</p>
+        <h1>Sudoku</h1>
+      </div>
+      <button id="theme-toggle" class="secondary-button" type="button" aria-pressed="false">Dark mode</button>
+    </header>
+
+    <section class="game-panel" aria-labelledby="game-heading">
+      <div class="toolbar">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button id="new-game" type="button">New puzzle</button>
+        <div class="stats" aria-label="Game statistics">
+          <span>Time <strong id="timer">00:00</strong></span>
+          <span>Hints <strong id="hint-count">0</strong></span>
+        </div>
+      </div>
+
+      <h2 id="game-heading" class="sr-only">Sudoku board</h2>
+      <div id="sudoku-board" role="grid" aria-label="Sudoku puzzle"></div>
+
+      <div class="actions">
+        <button id="check-solution" type="button">Check puzzle</button>
+        <button id="hint-button" class="hint-button" type="button">Hint</button>
+      </div>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="leaderboard" aria-labelledby="leaderboard-heading">
+      <div class="section-heading">
+        <p class="eyebrow">Local best times</p>
+        <h2 id="leaderboard-heading">Top 10 scores</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rank</th><th>Name</th><th>Time</th><th>Level</th><th>Hints</th></tr></thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
   <div class="controls">
-    <button id="new-game">New Game</button>
-    <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
   </div>
   <script src="/static/main.js"></script>
 </body>
